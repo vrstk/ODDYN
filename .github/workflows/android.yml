@@ -1,0 +1,60 @@
+name: Android APK
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    name: Сборка и проверки Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: android-actions/setup-android@v3
+      - name: Android SDK 36
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: assembleDebug, JVM-тесты и Android Lint
+        run: ./gradlew --no-daemon --stacktrace assembleDebug testDebugUnitTest lintDebug assembleDebugAndroidTest
+      - name: Проверить подпись APK
+        run: |
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose android/app/build/outputs/apk/debug/app-debug.apk
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/ODDYN-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ODDYN-debug-apk
+          path: dist/*.apk
+          if-no-files-found: error
+      - name: Отчёты при ошибке сборки
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-check-reports
+          path: android/app/build/reports/
+          if-no-files-found: ignore
+
+  backend:
+    name: Тесты FastAPI
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: python -m pip install -r backend/requirements.txt
+      - run: python -m pytest -q
+        working-directory: backend

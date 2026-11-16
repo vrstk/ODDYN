@@ -1,0 +1,354 @@
+{
+  "reference_date": "2000-01-01",
+  "events": [
+    {
+      "id": "football-derby",
+      "mode": "demo",
+      "sport": "football",
+      "tournament": "Северный кубок · демо",
+      "home": "Северный берег",
+      "away": "Полярная звезда",
+      "starts_at": "2000-01-01T15:30:00Z",
+      "sources": [
+        {
+          "name": "Сценарий ODDYN",
+          "kind": "demo",
+          "checked_at": "2000-01-01T06:00:00Z"
+        }
+      ],
+      "facts": [
+        "Условный матч на поле Северного берега.",
+        "Для линии 1X2 берётся основное время."
+      ],
+      "markets": [
+        {
+          "id": "total-under",
+          "family": "F05",
+          "label": "Тотал голов",
+          "selection": "Меньше 3,5",
+          "line": "3.5",
+          "period": "Основное время",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": "total-3.5",
+          "quote": {
+            "decimal": "1.80",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Для расчёта суммируются голы обеих команд.",
+            "Половинная линия исключает возврат ровно по тоталу."
+          ],
+          "risk": "Быстрый гол может изменить темп матча."
+        },
+        {
+          "id": "total-over",
+          "family": "F05",
+          "label": "Тотал голов",
+          "selection": "Больше 3,5",
+          "line": "3.5",
+          "period": "Основное время",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": "total-3.5",
+          "quote": {
+            "decimal": "2.05",
+            "bookmaker": "Стенд B",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Для выигрыша в этом сценарии нужно четыре гола или больше."
+          ],
+          "risk": "Исход взаимоисключается с тоталом меньше 3,5."
+        },
+        {
+          "id": "both-no",
+          "family": "F07",
+          "label": "Обе забьют",
+          "selection": "Нет",
+          "line": null,
+          "period": "Основное время",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": null,
+          "quote": {
+            "decimal": "2.20",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Проверяется, осталась ли одна из команд без голов."
+          ],
+          "risk": "Связан с общим тоталом этого матча."
+        },
+        {
+          "id": "corners-over",
+          "family": "F09",
+          "label": "Угловые",
+          "selection": "Больше 8,5",
+          "line": "8.5",
+          "period": "Основное время",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": "corners-8.5",
+          "quote": {
+            "decimal": "1.88",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Учитываются угловые обеих команд."
+          ],
+          "risk": "Темп атаки и ранний гол меняют структуру угловых."
+        }
+      ]
+    },
+    {
+      "id": "hockey-rink",
+      "mode": "demo",
+      "sport": "hockey",
+      "tournament": "Ледовая серия · демо",
+      "home": "Айсберг",
+      "away": "Тайфун",
+      "starts_at": "2000-01-01T16:15:00Z",
+      "sources": [
+        {
+          "name": "Сценарий ODDYN",
+          "kind": "demo",
+          "checked_at": "2000-01-01T06:00:00Z"
+        }
+      ],
+      "facts": [
+        "Условная ледовая арена.",
+        "Расчёт за 60 минут и победитель матча имеют разные правила."
+      ],
+      "markets": [
+        {
+          "id": "winner-home",
+          "family": "H03",
+          "label": "Победитель матча",
+          "selection": "Айсберг",
+          "line": null,
+          "period": "С ОТ и буллитами",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": "match-winner",
+          "quote": {
+            "decimal": "1.76",
+            "bookmaker": "Стенд B",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "В выбранной линии учитывается итог матча после овертайма или буллитов."
+          ],
+          "risk": "Данных о стартовых вратарях в сценарии нет."
+        },
+        {
+          "id": "total-over",
+          "family": "H05",
+          "label": "Тотал шайб",
+          "selection": "Больше 4,5",
+          "line": "4.5",
+          "period": "60 минут",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": "total-4.5",
+          "quote": {
+            "decimal": "1.92",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Суммируются шайбы за три периода."
+          ],
+          "risk": "Шайбы в овертайме на эту линию не влияют."
+        }
+      ]
+    },
+    {
+      "id": "tennis-court",
+      "mode": "demo",
+      "sport": "tennis",
+      "tournament": "Открытый корт · демо",
+      "home": "Алексей Северин",
+      "away": "Илья Ветров",
+      "starts_at": "2000-01-01T17:00:00Z",
+      "sources": [
+        {
+          "name": "Сценарий ODDYN",
+          "kind": "demo",
+          "checked_at": "2000-01-01T06:00:00Z"
+        }
+      ],
+      "facts": [
+        "Условное покрытие хард, формат до двух побед в сетах.",
+        "Данных о подаче и приёме в сценарии нет."
+      ],
+      "markets": [
+        {
+          "id": "winner-away",
+          "family": "T01",
+          "label": "Победитель матча",
+          "selection": "Илья Ветров",
+          "line": null,
+          "period": "Весь матч",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "push",
+          "exclusive_group": "match-winner",
+          "quote": {
+            "decimal": "1.65",
+            "bookmaker": "Стенд B",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Рынок рассчитывается по победителю завершённого матча."
+          ],
+          "risk": "При снятии игрока возможен возврат."
+        },
+        {
+          "id": "total-over",
+          "family": "T03",
+          "label": "Тотал геймов",
+          "selection": "Больше 21,5",
+          "line": "21.5",
+          "period": "Весь матч",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "push",
+          "exclusive_group": "total-21.5",
+          "quote": {
+            "decimal": "1.97",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Для выигрыша в завершённом матче нужны 22 гейма или больше."
+          ],
+          "risk": "Счёт сетов и правило снятия игрока влияют на расчёт."
+        }
+      ]
+    },
+    {
+      "id": "football-league",
+      "mode": "demo",
+      "sport": "football",
+      "tournament": "Лига городов · демо",
+      "home": "Восток",
+      "away": "Вершина",
+      "starts_at": "2000-01-01T18:00:00Z",
+      "sources": [
+        {
+          "name": "Сценарий ODDYN",
+          "kind": "demo",
+          "checked_at": "2000-01-01T06:00:00Z"
+        }
+      ],
+      "facts": [
+        "Условный матч лиги.",
+        "Учитывается основное время с добавленными минутами."
+      ],
+      "markets": [
+        {
+          "id": "home-win",
+          "family": "F01",
+          "label": "1X2",
+          "selection": "Победа Востока",
+          "line": null,
+          "period": "Основное время",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "binary",
+          "exclusive_group": "regulation-1x2",
+          "quote": {
+            "decimal": "2.10",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Рынок рассчитывается по итоговому счёту основного времени."
+          ],
+          "risk": "Данных о составах в сценарии нет."
+        },
+        {
+          "id": "cards-over",
+          "family": "F09",
+          "label": "Карточки",
+          "selection": "Больше 3,5",
+          "line": "3.5",
+          "period": "Основное время",
+          "rules": "Расчёт по указанному периоду в условиях демонстрационного сценария.",
+          "settlement": "unknown",
+          "exclusive_group": "cards-3.5",
+          "quote": {
+            "decimal": "1.84",
+            "bookmaker": "Стенд A",
+            "source": {
+              "name": "Сценарий ODDYN",
+              "kind": "demo",
+              "checked_at": "2000-01-01T06:00:00Z"
+            }
+          },
+          "rationale": [
+            "Условная линия учитывает только жёлтые карточки."
+          ],
+          "risk": "Правила по карточкам зависят от букмекера."
+        }
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "sport": "football",
+      "source": "Сценарий ODDYN",
+      "status": "demo",
+      "details": "Локальные условные матчи и котировки."
+    },
+    {
+      "sport": "hockey",
+      "source": "Сценарий ODDYN",
+      "status": "demo",
+      "details": "Локальные условные матчи и котировки."
+    },
+    {
+      "sport": "tennis",
+      "source": "Сценарий ODDYN",
+      "status": "demo",
+      "details": "Локальные условные матчи и котировки."
+    }
+  ]
+}
