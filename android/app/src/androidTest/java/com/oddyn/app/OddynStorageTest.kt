@@ -27,9 +27,10 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class OddynStorageTest {
-    @Test fun resumesOnlyPendingRowsAndKeepsCheckpoint() = runBlocking {
+    @Test fun resumesOnlyPendingRowsAndKeepsCheckpoint() = runBlocking<Unit> {
         val context = ApplicationProvider.getApplicationContext<android.content.Context>()
-        Room.inMemoryDatabaseBuilder(context, OddynDatabase::class.java).build().use { database ->
+        val database = Room.inMemoryDatabaseBuilder(context, OddynDatabase::class.java).build()
+        try {
             val preferences = Preferences()
             val sample = DemoSchedule(context).discover(preferences.date)
             val events = sample.events.take(2)
@@ -51,12 +52,15 @@ class OddynStorageTest {
                 assertEquals(events[1].id, it.getString(0))
                 assertEquals("FINISH", it.getString(1))
             }
+        } finally {
+            database.close()
         }
     }
 
-    @Test fun confirmsOneRealTicketAndCountsItsActualPayout() = runBlocking {
+    @Test fun confirmsOneRealTicketAndCountsItsActualPayout() = runBlocking<Unit> {
         val context = ApplicationProvider.getApplicationContext<android.content.Context>()
-        Room.inMemoryDatabaseBuilder(context, OddynDatabase::class.java).build().use { database ->
+        val database = Room.inMemoryDatabaseBuilder(context, OddynDatabase::class.java).build()
+        try {
             val repo = OddynRepository(context, database)
             val input = TicketInput("Тестовая БК", "001", TicketKind.EXPRESS, "Тестовый купон", "125,50", "2,10")
             repo.addTicket(input)
@@ -68,6 +72,8 @@ class OddynStorageTest {
             val stats = ticketStats(repo.tickets.first().map { it.amounts })
             assertEquals(1, stats.settled)
             assertEquals(BigDecimal("138.05"), stats.profit)
+        } finally {
+            database.close()
         }
     }
 }
