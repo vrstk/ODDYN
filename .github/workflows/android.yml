@@ -12,18 +12,28 @@ permissions:
 jobs:
   android:
     name: Сборка и проверки Android
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
-      - uses: gradle/actions/setup-gradle@v4
-      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v6
       - name: Android SDK 36
-        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+        shell: bash
+        run: |
+          sdk="${ANDROID_HOME:?Android SDK is missing from the runner}"
+          platform="$sdk/platforms/android-36/android.jar"
+          signer="$sdk/build-tools/36.0.0/apksigner"
+          if [[ ! -r "$platform" || ! -x "$signer" ]]; then
+            sdkmanager --sdk_root="$sdk" --install 'platforms;android-36' 'build-tools;36.0.0'
+          fi
+          test -r "$platform"
+          "$signer" version
       - name: assembleDebug, JVM-тесты и Android Lint
         run: ./gradlew --no-daemon --stacktrace assembleDebug testDebugUnitTest lintDebug assembleDebugAndroidTest
       - name: Проверить подпись APK
@@ -31,14 +41,14 @@ jobs:
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose android/app/build/outputs/apk/debug/app-debug.apk
           mkdir -p dist
           cp android/app/build/outputs/apk/debug/app-debug.apk dist/ODDYN-debug.apk
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ODDYN-debug-apk
           path: dist/*.apk
           if-no-files-found: error
       - name: Отчёты при ошибке сборки
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-check-reports
           path: android/app/build/reports/
@@ -46,11 +56,13 @@ jobs:
 
   backend:
     name: Тесты FastAPI
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
